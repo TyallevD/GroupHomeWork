@@ -95,7 +95,7 @@ public class UserService implements UserDetailsService /* <- UserDetailsService 
         if (userOptional.isPresent()) {
             return userOptional.get();
         } else {
-            throw new RuntimeException("Пользователь с именем '" + username + "' не найден");
+            throw new RuntimeException("Пользователь с именем '" + username + "' не найден!");
         }
     }
     // Получение информации о пользователе

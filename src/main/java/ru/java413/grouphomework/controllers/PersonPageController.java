@@ -15,17 +15,15 @@ public class PersonPageController {
     @Autowired
     private UserService userService;
 
-    // Личный кабинет пользователя (personpage)
+    // Рабочая страница после входа
     @GetMapping("/personpage")
-    public String dashboard(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+    public String personpage(@AuthenticationPrincipal UserDetails userDetails, Model model) {
         try {
-            // возвращется конкретный объект
             User user = userService.getUserInfo(userDetails.getUsername());
             model.addAttribute("user", user);
             model.addAttribute("welcomeMessage", "Добро пожаловать, " + user.getUsername() + "!");
             return "personpage";
         } catch (RuntimeException e) {
-            // возвраащется конкретный объект, но пользователь также видит сообщение об ошибке
             model.addAttribute("error", "Ошибка загрузки данных пользователя!");
             return "personpage";
         }
