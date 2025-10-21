@@ -40,6 +40,12 @@ public class User {
         this.createdAt = LocalDateTime.now();
     }
 
+    public User(Long id, String username, String password) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+    }
+
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
@@ -66,4 +72,9 @@ public class User {
 
     public boolean isEnabled() { return enabled; }
     public void setEnabled(boolean enabled) { this.enabled = enabled; }
+
+    @Override
+    public String toString() {
+        return "User{id=" + id + ", username=" +  username + ", password=" + password + ", email=" + email;
+    }
 }

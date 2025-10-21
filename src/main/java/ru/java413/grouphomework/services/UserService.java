@@ -1,6 +1,9 @@
 package ru.java413.grouphomework.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.java413.grouphomework.DTOs.UserRegistrationDTO;
@@ -11,7 +14,8 @@ import ru.java413.grouphomework.repositories.UserRepository;
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService /* <- UserDetailsService ключевой компонент для авторизации
+ и аутетинтификации**/{
 
     @Autowired
     private UserRepository userRepository;
@@ -99,7 +103,6 @@ public class UserService {
         return findByUsername(username);
     }
 
-
     // Метод для преобразования User в UserResponseDTO
     public UserResponseDTO convertToResponseDTO(User user) {
         return new UserResponseDTO(
@@ -108,5 +111,10 @@ public class UserService {
                 user.getEmail(),
                 user.getRole()
         );
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return null;
     }
 }
