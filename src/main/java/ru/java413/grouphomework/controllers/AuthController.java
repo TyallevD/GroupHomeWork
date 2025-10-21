@@ -33,7 +33,7 @@ public class AuthController {
         }
 
         if (logout != null) {
-            model.addAttribute("message", "Вы успешно вышли из системы!");
+            model.addAttribute("logout", "Вы успешно вышли из системы!");
         }
 
         if (success != null) {
