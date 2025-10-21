@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Главная страница</title>
-<!--    <link rel="stylesheet" href="../static/css/style.css">-->
+    <!--    <link rel="stylesheet" href="../static/css/style.css">-->
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 
@@ -15,7 +15,9 @@
         <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
         <div th:if="${logout}" class="alert alert-success" th:text="${logout}"></div>
         <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+
         <h2>Добро пожаловать в систему!</h2>
+
         <div class="username">
             <label for="inputUsername" class="form-label">Имя пользователя</label>
             <input type="text" id="inputUsername" name="username" class="form-control" placeholder="Введите имя пользователя" required>
@@ -25,32 +27,17 @@
             <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Введите пароль" required>
 
         </div>
-        <!-- кнопка войти для thymeleaf -->
-        <!-- <div class="submit-login">
-        <button type="submit" class="submit-button">Войти</button>
-    </div> -->
 
-        <!-- кнопка войти для vscode -->
         <div class="submit-login">
             <button type="submit" class="submit-button">Войти</button>
         </div>
     </form>
 
-    <!-- Кнопка регистрации для thymeleaf -->
     <div class="registry-form">
         <button class="submit-button">
             <a th:href="@{/register}">Зарегистрироваться</a>
         </button>
     </div>
-
-    <!-- кнопка регистрации для vscode -->
-    <!--        <form class="registry-form" action="./register.html">-->
-    <!--            <div class="registry-button">-->
-    <!--                <button class="submit-button">-->
-    <!--                    Зарегистрироваться-->
-    <!--                </button>-->
-    <!--            </div>-->
-    <!--        </form>-->
 </div>
 </body>
 
