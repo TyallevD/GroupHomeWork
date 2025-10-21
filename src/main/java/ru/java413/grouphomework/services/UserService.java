@@ -113,6 +113,10 @@ public class UserService implements UserDetailsService /* <- UserDetailsService 
         );
     }
 
+    public User getEntityByUsername(String username){
+        return userRepository.findByUsername(username).orElseThrow();
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return null;
