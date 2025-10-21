@@ -10,7 +10,8 @@
 
 <body>
 <div class="auth-container">
-    <form class="form-label" action="./personpage.html">
+    <form class="form-label" th:action="@{/login}" method="post">
+
         <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
         <div th:if="${logout}" class="alert alert-success" th:text="${logout}"></div>
         <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
