@@ -23,13 +23,9 @@ public class SecurityConfig {
     }
 
     @Bean
-    // обработка всех HTTP запросов
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-
-                // настройка правил доступа к URL
                 .authorizeHttpRequests(auth -> auth
-                        // указание путей, к которым применяются правила
                         .requestMatchers(
                                 "/",
                                 "/home",
@@ -38,45 +34,37 @@ public class SecurityConfig {
                                 "/css/**",
                                 "/js/**",
                                 "/images/**"
-
-                        //  разрешает доступ всем к главной странице и странице регистрации
                         ).permitAll()
-                        //все остальные запросы, которые ребуют аутентификации
                         .anyRequest().authenticated()
                 )
-                // форма логина
                 .formLogin(form -> form
-                        .loginPage("/login")
+                        .loginPage("/") // главная страница - форма логина
                         .loginProcessingUrl("/login")
-                        .defaultSuccessUrl("/dashboard", true)
-                        .failureUrl("/login?error=true")
+                        .defaultSuccessUrl("/personpage", true) // после входа на personpage
+                        .failureUrl("/?error=true")
                         .usernameParameter("username")
                         .passwordParameter("password")
                         .permitAll()
                 )
-
-                // выход со своей страницы
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login?logout=true")
+                        .logoutSuccessUrl("/?logout=true") // после выхода на главную (index)
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID")
                         .permitAll()
                 )
-                .exceptionHandling(ex -> ex
-                        .accessDeniedPage("/access-denied")
-                )
-                .userDetailsService(userDetailsService); // Добавьте эту строку
+                .userDetailsService(userDetailsService);
 
         return http.build();
     }
 
-    // хеширование паролей
+    // для хранения, сравнения паролей
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    //для обработки запросов аутентификации
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
