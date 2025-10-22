@@ -34,11 +34,11 @@ public class Taskcontroller {
         return taskService.addTask(task, user);
     }
 
-//    @PutMapping("/{id}")
-//    public Task updateTask(@PathVariable Long id, @RequestBody Task updated, Authentication auth) {
-//        User user = userService.getEntityByUsername(auth.getName());
-//        return taskService.updateTask(id, updated, user);
-//    }
+    @PutMapping("/{id}")
+    public Task updateTask(@PathVariable Long id, @RequestBody Task updated, Authentication auth) {
+        User user = userService.getEntityByUsername(auth.getName());
+        return taskService.updateTask(id, updated, user);
+    }
 
     @DeleteMapping("/{id}")
     public void deleteTask(@PathVariable Long id, Authentication auth) {
