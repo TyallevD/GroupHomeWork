@@ -95,4 +95,32 @@ public class UserService {
         return userRepository.findByUsername(username).orElseThrow();
     }
 
+    //Функционал администратора
+    //Смена роли пользователя
+    public void changeUserRole(Long userId, String newRole) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Пользователь не найден"));
+
+        // Проверяем валидность роли
+        if (!isValidRole(newRole)) {
+            throw new RuntimeException("Недопустимая роль: " + newRole);
+        }
+
+        user.setRole(newRole);
+        userRepository.save(user);
+    }
+    //Метод для проверки валидности роли (выше в методе изменения роли)
+    private boolean isValidRole(String role) {
+        return role != null && (role.equals("ROLE_USER") || role.equals("ROLE_ADMIN"));
+    }
+
+    //Список всех пользователей
+    public List<User> findAllUsers() {
+        return userRepository.findAll();
+    }
+
+    //Поиск по id для изменения роли
+    public Optional<User> findById(Long id) {
+        return userRepository.findById(id);
+    }
 }
