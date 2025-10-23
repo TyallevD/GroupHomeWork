@@ -23,10 +23,15 @@ public class DatabaseUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("Пользователь: " + username + " не найден!");
         }
 
+        String role = user.getRole();
+        if (role == null) {
+            role = "ROLE_USER";
+        }
+
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getUsername())
                 .password(user.getPassword())
-                .roles("USER") // устанавливается роль пользователя
+                .roles(role.replace("ROLE_", "")) // устанавливается роль пользователя
                 .build();
     }
 }

@@ -5,8 +5,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.java413.grouphomework.DTOs.UserRegistrationDTO;
 import ru.java413.grouphomework.entities.User;
+import ru.java413.grouphomework.repositories.TaskRepository;
 import ru.java413.grouphomework.repositories.UserRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -14,6 +16,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    TaskRepository taskRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -84,12 +89,11 @@ public class UserService {
             throw new RuntimeException("Пользователь с именем '" + username + "' не найден!");
         }
     }
-//
-//    // Получение информации о пользователе
-//    // TODO для чего этот метод?
-//    public User getUserInfo(String username) {
-//        return findByUsername(username);
-//    }
+
+    // Получение информации о пользователе
+    public User getUserInfo(String username) {
+        return findByUsername(username);
+    }
 
 
     public User getEntityByUsername(String username) {
@@ -110,6 +114,7 @@ public class UserService {
         user.setRole(newRole);
         userRepository.save(user);
     }
+
     //Метод для проверки валидности роли (выше в методе изменения роли)
     private boolean isValidRole(String role) {
         return role != null && (role.equals("ROLE_USER") || role.equals("ROLE_ADMIN"));
@@ -123,5 +128,10 @@ public class UserService {
     //Поиск по id для изменения роли
     public Optional<User> findById(Long id) {
         return userRepository.findById(id);
+    }
+
+    //Подсчёт пользователей для статистики администратора
+    public long countUsers() {
+        return userRepository.count();
     }
 }

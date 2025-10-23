@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Список пользователей</title>
+</head>
+<body>
+<table th:if="${users.size()!=0}" border="1">
+    <thead>
+
+    <tr>
+        <th>Id</th>
+        <th>Имя пользователя</th>
+        <th>Email</th>
+        <th>Создан</th>
+        <th>Роль</th>
+        <th>Управление</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="u , status : ${users}">
+        <td th:text="${u.getId()}"></td>
+        <td th:text="${u.getUsername()}"></td>
+        <td th:text="${u.getEmail()}"></td>
+        <td th:text="${u.getCreatedAt()}"></td>
+        <td th:text="${u.getRole()}"></td>
+        <td>заглушка для кнопок</td>
+        <!--        <td>-->
+        <!--            <div class="container">-->
+        <!--                &lt;!&ndash;                <a th:href="@{/api/teacher/delete/{id}(id=${t.getId()})}" class="del clear">Remove</a>&ndash;&gt;-->
+        <!--                <form onsubmit="return confirm('Вы уверены, что хотите удалить запись?')" class="del"-->
+        <!--                      th:action="@{/api/teacher/delete/{id}(id=${t.getId()})}" method="post">-->
+        <!--                    <input type="hidden" name="_method" value="delete">-->
+        <!--                    <button class="del clear" type="submit">Delete</button>-->
+        <!--                </form>-->
+        <!--            </div>-->
+        <!--        </td>-->
+    </tr>
+    </tbody>
+</table>
+<h1 th:unless="${users.size()!=0}">Пользователей нет, но как так-то ? Вы же тоже пользователь =)</h1>
+</body>
+</html>

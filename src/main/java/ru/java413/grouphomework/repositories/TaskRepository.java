@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
-    // Возвращает задачи конкретного рользователя
+    // Возвращает задачи конкретного пользователя
     List<Task> findByUser(User user);
 
     // Для безопасности - можно подключить задачу по id и user

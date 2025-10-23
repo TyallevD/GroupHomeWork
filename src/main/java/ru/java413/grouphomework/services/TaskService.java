@@ -5,15 +5,14 @@ import org.springframework.stereotype.Service;
 import ru.java413.grouphomework.entities.Task;
 import ru.java413.grouphomework.entities.User;
 import ru.java413.grouphomework.repositories.TaskRepository;
-import ru.java413.grouphomework.repositories.UserRepository;
 
 import java.util.List;
 
 @Service
 public class TaskService {
 
-    @Autowired private TaskRepository taskRepository;
-    @Autowired private UserRepository userRepository;
+    @Autowired
+    private TaskRepository taskRepository;
 
     public List<Task> getUserTasks(User user) {
         return taskRepository.findByUser(user);
@@ -30,12 +29,17 @@ public class TaskService {
         taskRepository.delete(task);
     }
 
-    public  Task updateTask(Long id, Task updated,User user) {
+    public Task updateTask(Long id, Task updated, User user) {
         Task existing = taskRepository.findByIdAndUser(id, user)
                 .orElseThrow(() -> new RuntimeException("Task not found or not exists.")); /* Если такого задания нет **/
         existing.setTitle(updated.getTitle());
         existing.setDescription(updated.getDescription());
         existing.setCompleted(updated.isCompleted());
         return taskRepository.save(existing);
+    }
+
+    //Подсчёт заметок для статистики администратора
+    public long tasksCount() {
+        return taskRepository.count();
     }
 }

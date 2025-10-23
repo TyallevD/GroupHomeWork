@@ -1,4 +1,4 @@
-/*Страница авторизации*/
+/*Общий стиль тела html*/
 body {
     font-family: Arial, sans-serif;
     background-color: #f5f5f5;
@@ -10,30 +10,10 @@ body {
     min-height: 100vh;
 }
 
-.auth-container {
-    background-color: white;
-    padding: 30px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
-}
-
 h2 {
     text-align: center;
     color: #333;
     margin-bottom: 30px;
-}
-
-.form-label {
-    color: #555;
-    font-weight: bold;
-    display: block;
-    margin-bottom: 5px;
-}
-
-.username, .password {
-    margin-bottom: 20px;
 }
 
 input[type="text"],
@@ -52,6 +32,40 @@ input[type="password"]:focus {
     border-color: #4CAF50;
     box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
 }
+
+button {
+    flex: 1;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+/*Страница авторизации*/
+.auth-container, .stats-container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+
+.form-label {
+    color: #555;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.username, .password , stat-card {
+    margin-bottom: 20px;
+}
+
 
 .submit-login {
     margin-bottom: 20px;
@@ -152,16 +166,7 @@ input[type="password"]:focus {
     margin-top: 30px;
 }
 
-button {
-    flex: 1;
-    padding: 12px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    transition: background-color 0.3s;
-}
+
 
 .register-btn {
     background-color: #4CAF50;
@@ -224,3 +229,27 @@ button {
     margin: 5px 0;
     padding-left: 20px;
 }
+
+
+/*Панель администратора*/
+.stat-card {
+    display: flex;
+    flex-wrap: wrap;
+}
+.stat-card h3{
+    width: 55%;
+    margin: 10px 5px;
+    padding: 8px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+ .stat-card span{
+     width: 30%;
+     margin: 10px 5px;
+     padding: 8px;
+     background-color: #4CAF50;
+     font-size: 20px;
+     text-align: center;
+     border-radius: 8px;
+     box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  }

@@ -9,12 +9,11 @@ import ru.java413.grouphomework.services.TaskService;
 import ru.java413.grouphomework.services.UserService;
 
 
-
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/tasks")
-public class Taskcontroller {
+public class TaskController {
 
     @Autowired
     private TaskService taskService;
@@ -23,7 +22,7 @@ public class Taskcontroller {
     private UserService userService;
 
     @GetMapping
-    public List<Task> getTasks(Authentication auth){
+    public List<Task> getTasks(Authentication auth) {
         User user = userService.getEntityByUsername(auth.getName());
         return taskService.getUserTasks(user);
     }
