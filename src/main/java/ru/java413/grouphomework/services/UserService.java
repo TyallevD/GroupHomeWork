@@ -1,21 +1,16 @@
 package ru.java413.grouphomework.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.java413.grouphomework.DTOs.UserRegistrationDTO;
-import ru.java413.grouphomework.DTOs.UserResponseDTO;
 import ru.java413.grouphomework.entities.User;
 import ru.java413.grouphomework.repositories.UserRepository;
 
 import java.util.Optional;
 
 @Service
-public class UserService implements UserDetailsService /* <- UserDetailsService ключевой компонент для авторизации
- и аутетинтификации**/{
+public class UserService {
 
     @Autowired
     private UserRepository userRepository;
@@ -80,15 +75,6 @@ public class UserService implements UserDetailsService /* <- UserDetailsService 
         return email != null && email.matches(emailRegex);
     }
 
-    // Аутентификация пользователя
-    public boolean authenticateUser(String username, String password) {
-        try {
-            User user = findByUsername(username);
-            return passwordEncoder.matches(password, user.getPassword());
-        } catch (RuntimeException e) {
-            return false;
-        }
-    }
     // Поиск пользователя по имени
     public User findByUsername(String username) {
         Optional<User> userOptional = userRepository.findByUsername(username);
@@ -98,27 +84,15 @@ public class UserService implements UserDetailsService /* <- UserDetailsService 
             throw new RuntimeException("Пользователь с именем '" + username + "' не найден!");
         }
     }
+
     // Получение информации о пользователе
     public User getUserInfo(String username) {
         return findByUsername(username);
     }
 
-    // Метод для преобразования User в UserResponseDTO
-    public UserResponseDTO convertToResponseDTO(User user) {
-        return new UserResponseDTO(
-                user.getId(),
-                user.getUsername(),
-                user.getEmail(),
-                user.getRole()
-        );
-    }
 
-    public User getEntityByUsername(String username){
+    public User getEntityByUsername(String username) {
         return userRepository.findByUsername(username).orElseThrow();
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return null;
-    }
 }
