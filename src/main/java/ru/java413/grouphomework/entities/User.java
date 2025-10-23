@@ -21,7 +21,7 @@ public class User {
 
     // по умолчанию для новых пользователей ROLE_USER
     @Column(nullable = false, length = 20)
-    private String role = "ROLE_USER";
+    private String role;
 
     // поле хранит дату и время регистрации
     @Column(name = "created_at")
