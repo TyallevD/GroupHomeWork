@@ -84,11 +84,12 @@ public class UserService {
             throw new RuntimeException("Пользователь с именем '" + username + "' не найден!");
         }
     }
-
-    // Получение информации о пользователе
-    public User getUserInfo(String username) {
-        return findByUsername(username);
-    }
+//
+//    // Получение информации о пользователе
+//    // TODO для чего этот метод?
+//    public User getUserInfo(String username) {
+//        return findByUsername(username);
+//    }
 
 
     public User getEntityByUsername(String username) {
