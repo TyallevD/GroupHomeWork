@@ -21,4 +21,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     // Подсчет пользователей (возвращает общее количество записей в таблице)
     long count();
+
+    boolean existsByEmailAndIdNot(String email, Long id);
 }

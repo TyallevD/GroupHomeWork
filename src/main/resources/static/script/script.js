@@ -18,7 +18,6 @@ openBtn.addEventListener('click', function () {
 function closeModal() {
     document.getElementById('addTaskModal').style.display = 'none';
     document.getElementById('editTaskModal').style.display = 'none';
-
 }
 
 // Обработчики для кнопок отмены в обоих модальных окнах
@@ -55,6 +54,7 @@ document.getElementById('addTaskForm').addEventListener('submit', function (e) {
     }
 });
 
+//Настройка исчезновения алертов
 document.addEventListener('DOMContentLoaded', function () {
     const flashMessages = document.querySelectorAll('.alert');
 
@@ -65,10 +65,10 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-//для редактирования
-let currentEditTaskId = null;
+// для редактирования задачи
+    let currentEditTaskId = null;
 
-function openEditModal(button) {
+    function openEditModal(button) {
 
     // заполнение данными из элемента таблицы
     const taskId = button.getAttribute('data-id');

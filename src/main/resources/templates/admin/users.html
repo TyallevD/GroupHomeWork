@@ -3,42 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <title>Список пользователей</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<table th:if="${users.size()!=0}" border="1">
-    <thead>
+<div class="admin-container">
+    <div class="admin-nav">
+        <a class="header-info" th:href="@{/admin/dashboard}">Статистика</a>
+        <a class="header-info" th:href="@{/admin/users}" style="background-color: blue;">Управление пользователями</a>
+        <a class="header-info" th:href="@{/personpage}">Мои заметки</a>
+        <form class="admin-exit-button" th:action="@{/logout} " method="post">
+            <button type="submit" class="back-btn">Выйти</button>
+        </form>
+    </div>
 
-    <tr>
-        <th>Id</th>
-        <th>Имя пользователя</th>
-        <th>Email</th>
-        <th>Создан</th>
-        <th>Роль</th>
-        <th>Управление</th>
-    </tr>
-    </thead>
+    <div class="users-list-container">
+        <h2>Панель администратора</h2>
+        <h3>Список пользователей</h3>
+        <div th:if="${success}" class="alert alert-success" th:text="${success}">
+        </div>
+        <div th:if="${error}" class="alert alert-error" th:text="${error}">
+        </div>
+        <table th:if="${users.size()!=0}" border="1">
+            <thead>
 
-    <tbody>
-    <tr th:each="u , status : ${users}">
-        <td th:text="${u.getId()}"></td>
-        <td th:text="${u.getUsername()}"></td>
-        <td th:text="${u.getEmail()}"></td>
-        <td th:text="${u.getCreatedAt()}"></td>
-        <td th:text="${u.getRole()}"></td>
-        <td>заглушка для кнопок</td>
-        <!--        <td>-->
-        <!--            <div class="container">-->
-        <!--                &lt;!&ndash;                <a th:href="@{/api/teacher/delete/{id}(id=${t.getId()})}" class="del clear">Remove</a>&ndash;&gt;-->
-        <!--                <form onsubmit="return confirm('Вы уверены, что хотите удалить запись?')" class="del"-->
-        <!--                      th:action="@{/api/teacher/delete/{id}(id=${t.getId()})}" method="post">-->
-        <!--                    <input type="hidden" name="_method" value="delete">-->
-        <!--                    <button class="del clear" type="submit">Delete</button>-->
-        <!--                </form>-->
-        <!--            </div>-->
-        <!--        </td>-->
-    </tr>
-    </tbody>
-</table>
-<h1 th:unless="${users.size()!=0}">Пользователей нет, но как так-то ? Вы же тоже пользователь =)</h1>
+            <tr>
+                <th>Id</th>
+                <th>Имя пользователя</th>
+                <th>Email</th>
+                <th>Создан</th>
+                <th>Роль</th>
+                <th>Активен</th>
+                <th>Управление</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="u , status : ${users}">
+                <td th:text="${u.getId()}"></td>
+                <td th:text="${u.getUsername()}"></td>
+                <td th:text="${u.getEmail()}"></td>
+                <td th:text="${u.getCreatedAt()}"></td>
+                <td th:text="${u.getRole()}=='ROLE_ADMIN' ? 'Администратор':'Пользователь'"></td>
+                <td>
+                    <span th:if="${u.isEnabled()}" class="status-completed">✅</span>
+                    <span th:unless="${u.isEnabled()}" class="status-not-completed">❌</span></td>
+                <td>
+                    <div>
+                        <button class="edit-btn"
+                                th:data-id="${u.getId()}"
+                                th:data-role="${u.getRole()}"
+                                th:data-email="${u.getEmail()}"
+                                th:data-enabled="${u.isEnabled()}"
+                                onclick="openEditUserModal(this)">
+                            ✏️
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <h1 th:unless="${users.size()!=0}">Пользователей нет, но как так-то ? Вы же тоже пользователь =)</h1>
+    <!--    Модальное окно редактирования задачи-->
+    <div id="editUserModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Редактировать пользователя</h3>
+
+            <form id="editUserForm" method="post">
+                <input type="hidden" id="editUserId" name="id">
+                <input type="hidden" name="_method" value="put">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+                <div class="form-group">
+                    <label for="editUserRole">Роль:</label>
+                    <select id="editUserRole" name="role">
+                        <option value="ROLE_ADMIN">Администратор</option>
+                        <option value="ROLE_USER">Пользователь</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="editUserEmail">Email:</label>
+                    <input type="text" id="editUserEmail" name="email"
+                           placeholder="Введите email">
+                </div>
+
+                <div class="form-group">
+                    <label for="editUserEnabled">
+                        <input type="checkbox" id="editUserEnabled" name="enabled">
+                        Активен
+                    </label>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit" class="save-btn">Сохранить изменения</button>
+                    <button type="button" class="cancel-btn">Отмена</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script th:src="@{/script/admin.js}"></script>
 </body>
 </html>

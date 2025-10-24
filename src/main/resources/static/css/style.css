@@ -313,7 +313,7 @@ button.back-btn,
 a.back-btn:hover,
 button.back-btn:hover,
 .cancel-btn:hover {
-    opacity: .9;
+    opacity: 0.9;
 }
 
 /* Группа кнопок под профилем */
@@ -351,7 +351,7 @@ button.back-btn:hover,
 }
 
 .person-tasks-container {
-    height: 85vh;
+    height: 80vh;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -413,17 +413,12 @@ button.back-btn:hover,
     min-width: 400px;
 }
 
-.completed {
+.completed, .task-actions {
     width: 100px;
     max-width: 100px;
     min-width: 98px;
 }
 
-.task-actions {
-    width: 100px;
-    max-width: 100px;
-    min-width: 98px;
-}
 /*Стили для модальных окон*/
 .modal {
     display: none;
@@ -464,8 +459,44 @@ button.back-btn:hover,
     flex-direction: row;
     gap: 10px;
 }
-.char-count{
-    margin:5px;
+
+.char-count {
+    margin: 5px;
     padding: 5px;
 }
 
+/*Панель администратора*/
+.admin-nav a {
+    background: #28a745;
+    border: 1px solid #28a745;
+    color: #fff;
+    padding: 10px 16px;
+    margin: 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity .15s ease-in-out;
+    text-decoration: none;
+}
+
+.admin-nav a:hover {
+    opacity: 0.9;
+}
+
+.admin-nav .admin-exit-button {
+    margin-right: 20px;
+}
+
+.stats-container, .users-list-container {
+    height: 80vh;
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: none;
+    width: 100%;
+}
+
+.stat-card {
+    min-width: 400px;
+}

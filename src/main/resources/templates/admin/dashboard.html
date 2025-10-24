@@ -6,29 +6,29 @@
     <meta charset="UTF-8">
     <title>Панель администратора</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="../../static/css/style.css">
 </head>
 <body>
 <div class="admin-container">
     <div class="admin-nav">
-        <a th:href="@{/admin/dashboard}">Статистика</a>
-        <a th:href="@{/admin/users}">Управление пользователями</a>
-        <a th:href="@{/personpage}">Мои заметки</a>
-        <form class="form-label" th:action="@{/logout} " method="post">
-            <button type="submit" class="back-btn">Выход</button>
+        <a class="header-info" th:href="@{/admin/dashboard}" style="background-color: blue;">Статистика</a>
+        <a class="header-info" th:href="@{/admin/users}">Управление пользователями</a>
+        <a class="header-info" th:href="@{/personpage}">Мои заметки</a>
+        <form class="admin-exit-button" th:action="@{/logout} " method="post">
+            <button type="submit" class="back-btn">Выйти</button>
         </form>
     </div>
 
-    <h1>Панель администратора</h1>
-    <hr>
     <div class="stats-container">
-        <h2>Статистика</h2>
+    <h2>Панель администратора</h2>
+        <h3>Статистика</h3>
         <div class="stat-card">
             <h3>Всего пользователей</h3>
-            <span th:text="${userscount}"></span>
+            <span th:text="${userscount}">16</span>
         </div>
         <div class="stat-card">
             <h3>Количество заметок</h3>
-            <span th:text="${taskscount}"></span>
+            <span th:text="${taskscount}">16</span>
         </div>
     </div>
 </div>

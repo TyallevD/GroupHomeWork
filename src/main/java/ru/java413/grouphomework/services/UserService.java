@@ -1,9 +1,11 @@
 package ru.java413.grouphomework.services;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.java413.grouphomework.DTOs.UserRegistrationDTO;
+import ru.java413.grouphomework.DTOs.UserResponseDTO;
 import ru.java413.grouphomework.entities.User;
 import ru.java413.grouphomework.repositories.TaskRepository;
 import ru.java413.grouphomework.repositories.UserRepository;
@@ -133,5 +135,36 @@ public class UserService {
     //Подсчёт пользователей для статистики администратора
     public long countUsers() {
         return userRepository.count();
+    }
+    @Transactional
+    public void updateUser(Long id, UserResponseDTO dto) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Пользователь не найден"));
+
+        //проверка не используется ли такой email другим пользователем
+        if (dto.getEmail() != null && !dto.getEmail().equals(user.getEmail())) {
+            if (userRepository.existsByEmailAndIdNot(dto.getEmail(), id)) {
+                throw new RuntimeException("Email уже используется другим пользователем");
+            }
+            user.setEmail(dto.getEmail());
+        }
+        if (dto.getRole() != null) {
+            user.setRole(dto.getRole());
+        }
+        if (!isValidRole(dto.getRole())) {
+            throw new RuntimeException("Недопустимая роль: " + dto.getRole());
+        }
+
+        if (dto.isEnabled() != null) {
+            user.setEnabled(dto.isEnabled());
+        }
+        System.out.println(user.toString());
+        try {
+
+        userRepository.save(user);
+        } catch (Exception exception){
+
+            System.out.println(exception.getMessage());
+        }
     }
 }

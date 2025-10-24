@@ -1,17 +1,17 @@
 package ru.java413.grouphomework.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import ru.java413.grouphomework.DTOs.UserResponseDTO;
 import ru.java413.grouphomework.entities.User;
 import ru.java413.grouphomework.services.TaskService;
 import ru.java413.grouphomework.services.UserService;
 
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin")
@@ -38,14 +38,36 @@ public class AdminController {
     public String userManagement(Model model) {
         List<User> users = userService.findAllUsers();
         model.addAttribute("users", users);
-        return "admin/users";
+        return "/admin/users";
     }
 
     // Редактирование пользователя
-    @GetMapping("/users/edit/{id}")
-    public String editUser(@PathVariable Long id, Model model) {
-        Optional<User> user = userService.findById(id);
-        model.addAttribute("user", user);
-        return "admin/edit-user";
+    @PutMapping("/users/{id}")
+    public String editUser(@PathVariable Long id,
+                           @ModelAttribute UserResponseDTO userResponseDTO,
+                           RedirectAttributes redirectAttributes,
+                           Authentication auth) {
+        if (!auth.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
+            redirectAttributes.addAttribute("error", "Недостаточно прав");
+            return "redirect:/admin/users";
+        }
+        try {
+            String currentUserName = auth.getName();
+            User currentUser = userService.findByUsername(currentUserName);
+            if (currentUser.getId().equals(id)) {
+                redirectAttributes.addFlashAttribute("error", "Нельзя редактировать собственный аккаунт через панель администратора");
+                return "redirect:/admin/users";
+            }
+            System.out.println("Что-то меняется?");
+            userService.updateUser(id, userResponseDTO);
+            redirectAttributes.addFlashAttribute("success", "Пользователь успешно обновлен");
+            return "redirect:/admin/users";
+        } catch (RuntimeException ex) {
+            redirectAttributes.addFlashAttribute("error", ex.getMessage());
+        } catch (Exception ex) {
+            redirectAttributes.addFlashAttribute(   "error", "Ошибка при изменении пользователя");
+        }
+        return "redirect:/admin/users";
     }
 }

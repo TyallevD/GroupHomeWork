@@ -29,7 +29,7 @@ public class User {
 
     // true - если пользователь в сети
     @Column(name = "is_enabled")
-    private boolean enabled = true;
+    private boolean enabled;
 
     public User() {}
 
