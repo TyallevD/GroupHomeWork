@@ -1,15 +1,166 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Страница пользователя</title>
-</head>
-<body>
-<h1>Страничка пользователя</h1>
-<form class="form-label" th:action="@{/logout}" method="post">
-    <button type="submit">Выход</button>
-</form>
 
-<a th:href="@{/admin/dashboard}"> переход в админа</a>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="../static/css/style.css">
+
+</head>
+
+<body>
+<!-- Профиль -->
+<div class="person-page-container">
+    <div class="person-page-header">
+        <div class="header-info" th:if="${user != null}">
+            <p><strong>Логин:</strong> <span th:text="${user.username}">user</span></p>
+        </div>
+
+        <div class="header-info">
+            <p><strong>Роль:</strong>
+                <span th:text="${user.getRole() == 'ROLE_ADMIN'? 'Администратор' : 'Пользователь'}"></span>
+            </p>
+        </div>
+
+        <!-- Кнопки -->
+        <div class="person-button-group">
+
+            <a th:if="${user.getRole()== 'ROLE_ADMIN'}" class="register-btn" th:href="@{/admin/dashboard}">Панель
+                администратора</a>
+
+            <form class="person-button-group" th:action="@{/logout}" method="post">
+                <!--                <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}"-->
+                <!--                       th:value="${_csrf.token}"/>-->
+                <button type="submit" class="back-btn">Выйти</button>
+            </form>
+        </div>
+    </div>
+    <div class="person-tasks-container">
+        <!-- Приветствие -->
+        <div class="welcome">
+        <h2 th:text="${welcomeMessage}"></h2>
+            <h3>Мои заметки</h3>
+            <button class="add-task" id="openAddTaskModal">Добавить заметку</button>
+        </div>
+
+        <!-- Ошибки и сообщения -->
+        <div th:if="${success}" class="alert alert-success" th:text="${success}">
+        </div>
+        <div th:if="${error}" class="alert alert-error" th:text="${error}">
+        </div>
+        <table th:if="${tasks.size()!=0}" border="1">
+            <thead>
+            <tr>
+                <th class="title">Название</th>
+                <th class="description">Описание</th>
+                <th class="completed">Выполнено</th>
+                <th class="task-actions">Управление</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="t , status : ${tasks}">
+                <td th:text="${t.getTitle()}"></td>
+                <td th:text="${t.getDescription()}"></td>
+                <td class="status-cell">
+                    <span th:if="${t.isCompleted()}" class="status-completed">✅</span>
+                    <span th:unless="${t.isCompleted()}" class="status-not-completed">❌</span>
+                </td>
+                <td>
+                    <div>
+                        <button class="edit-btn"
+                                th:data-id="${t.getId()}"
+                                th:data-title="${t.getTitle()}"
+                                th:data-description="${t.getDescription()}"
+                                th:data-completed="${t.isCompleted()}"
+                                onclick="openEditModal(this)">
+                            ✏️
+                        </button>
+
+                        <form onsubmit="return confirm('Вы уверены, что хотите удалить эту заметку?')"
+                              class="delete-btn" style="display: inline"
+                              th:action="@{/api/tasks/{id}(id=${t.getId()})}" method="post">
+                            <input type="hidden" name="_method" value="delete">
+                            <button type="submit" class="delete-btn">🗑️</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <h3 th:unless="${tasks.size()!=0}">Заметок не найдено, попробуйте создать первую!</h3>
+    </div>
+</div>
+
+<!--    Модальное окно добавления задачи-->
+<div id="addTaskModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3>Добавить новую заметку</h3>
+
+        <form id="addTaskForm" th:action="@{/api/tasks}" method="post">
+            <div class="form-group">
+                <label for="taskTitle">Название:</label>
+                <input type="text" id="taskTitle" name="title" maxlength="50" required
+                       placeholder="Введите название (макс. 50 символов)">
+                <span class="char-count"><span id="titleCount">0</span>/50</span>
+            </div>
+
+            <div class="form-group">
+                <label for="taskDescription">Описание:</label>
+                <textarea id="taskDescription" name="description" rows="6" maxlength="255"
+                          placeholder="Введите описание заметки..." style="resize: both;"></textarea>
+            </div>
+
+            <div class="form-buttons">
+                <button type="submit" class="save-btn">Сохранить</button>
+                <button type="button" class="cancel-btn">Отмена</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!--    Модальное окно редактирования задачи-->
+<div id="editTaskModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h3>Редактировать заметку</h3>
+
+        <form id="editTaskForm" method="post">
+            <input type="hidden" id="editTaskId" name="id">
+            <input type="hidden" name="_method" value="put">
+
+            <div class="form-group">
+                <label for="editTaskTitle">Название:</label>
+                <input type="text" id="editTaskTitle" name="title" maxlength="50" required
+                       placeholder="Введите название (макс. 50 символов)">
+            </div>
+
+            <div class="form-group">
+                <label for="editTaskDescription">Описание:</label>
+                <textarea id="editTaskDescription" name="description" rows="6" maxlength="255"
+                          placeholder="Введите описание заметки..." style="resize: both;"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="editTaskCompleted">
+                    <input type="checkbox" id="editTaskCompleted" name="completed">
+                    Выполнено
+                </label>
+            </div>
+
+            <div class="form-buttons">
+                <button type="submit" class="save-btn">Сохранить изменения</button>
+                <button type="button" class="cancel-btn">Отмена</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script th:src="@{/script/script.js}"></script>
 </body>
+
 </html>
