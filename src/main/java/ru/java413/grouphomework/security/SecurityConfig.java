@@ -2,7 +2,6 @@ package ru.java413.grouphomework.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,6 +16,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
+                        //для неавторизованных пользователей
                         .requestMatchers(
                                 "/",
                                 "/home",
@@ -26,10 +26,10 @@ public class SecurityConfig {
                                 "/js/**",
                                 "/images/**"
                         ).permitAll()
+                        //только для админа
                         .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/user/**").hasAnyRole("USER","ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/admin/users/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/admin/users/**").hasRole("ADMIN")
+                        //для админа и пользователей
+                        .requestMatchers("/personpage/**").hasAnyRole("USER","ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form

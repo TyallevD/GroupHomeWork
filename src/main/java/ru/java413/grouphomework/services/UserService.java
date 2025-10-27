@@ -136,6 +136,7 @@ public class UserService {
     public long countUsers() {
         return userRepository.count();
     }
+    //todo доделать редактирование пользователя
     @Transactional
     public void updateUser(Long id, UserResponseDTO dto) {
         User user = userRepository.findById(id)
@@ -161,8 +162,8 @@ public class UserService {
         System.out.println(user.toString());
         try {
 
-        userRepository.save(user);
-        } catch (Exception exception){
+            userRepository.save(user);
+        } catch (Exception exception) {
 
             System.out.println(exception.getMessage());
         }

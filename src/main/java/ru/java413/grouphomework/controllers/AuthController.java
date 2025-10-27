@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.java413.grouphomework.DTOs.UserRegistrationDTO;
-import ru.java413.grouphomework.entities.User;
 import ru.java413.grouphomework.services.UserService;
 
 
@@ -67,7 +66,7 @@ public class AuthController {
         }
 
         try {
-            User user = userService.registerUser(registrationDTO);
+            userService.registerUser(registrationDTO);
             redirectAttributes.addFlashAttribute("success",
                     "Регистрация прошла успешно! Теперь вы можете войти в систему.");
             return "redirect:/?success=true";
