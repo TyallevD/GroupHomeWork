@@ -1,5 +1,6 @@
 const closeBtn = document.querySelectorAll('.close');
 const cancelBtn = document.querySelectorAll('.cancel-btn');
+
 // Закрытие при клике вне модального окна
 window.addEventListener('click', function (event) {
     const editUserModal = document.getElementById('editUserModal');
@@ -22,16 +23,16 @@ function closeModal() {
 }
 
 //Для изменения пользователя
-    let currentEditUserId = null;
+//     let currentEditUserId = null;
 
 function openEditUserModal(button) {
 
     // заполнение данными из элемента таблицы
     const userId = button.getAttribute('data-id');
+    const username = button.getAttribute('data-username');
     const role = button.getAttribute('data-role');
     const email = button.getAttribute('data-email');
-    const enabled = button.getAttribute('data-enabled')
-    let currentEditUserId = userId;
+    const enabled = button.getAttribute('data-enabled');
 
     // Заполняем форму данными задачи
     document.getElementById('editUserId').value = userId;
@@ -40,6 +41,8 @@ function openEditUserModal(button) {
     document.getElementById('editUserEnabled').checked =
         enabled === 'true' || enabled === true;
 
+    const modalTitle = document.querySelector('#editUserModal h3');
+    modalTitle.textContent = `Редактирование пользователя: ${username}`;
 
     document.getElementById('editUserForm').action = `/admin/users/${userId}`;
 
@@ -52,6 +55,13 @@ document.getElementById('editUserForm').addEventListener('submit', function (e) 
 
     const formData = new FormData(this);
     const csrfToken = document.querySelector('input[name="_csrf"]').value;
+
+    // Для отладки - посмотрим что отправляем
+    for (let [key, value] of formData.entries()) {
+        console.log(`${key}: ${value}`);
+    }
+
+
 
     fetch(this.action, {
         method: 'POST',

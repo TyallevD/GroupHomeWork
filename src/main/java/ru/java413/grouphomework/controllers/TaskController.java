@@ -40,6 +40,7 @@ public class TaskController {
             User user = userService.getEntityByUsername(auth.getName());
             taskService.updateTask(id, task, user);
             redirectAttributes.addFlashAttribute("success", "Заметка успешно обновлена!");
+            return "redirect:/personpage";
         } catch (Exception ex) {
             redirectAttributes.addFlashAttribute("error", "Ошибка при обновлении заметки");
         }

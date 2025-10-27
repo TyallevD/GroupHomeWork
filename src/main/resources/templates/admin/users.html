@@ -42,7 +42,7 @@
                 <td th:text="${u.getId()}"></td>
                 <td th:text="${u.getUsername()}"></td>
                 <td th:text="${u.getEmail()}"></td>
-                <td th:text="${u.getCreatedAt()}"></td>
+                <td th:text="${#temporals.format(u.getCreatedAt(), 'yyyy-MM-dd HH:mm:ss')}"></td>
                 <td th:text="${u.getRole()}=='ROLE_ADMIN' ? 'Администратор':'Пользователь'"></td>
                 <td>
                     <span th:if="${u.isEnabled()}" class="status-completed">✅</span>
@@ -51,6 +51,7 @@
                     <div>
                         <button class="edit-btn"
                                 th:data-id="${u.getId()}"
+                                th:data-username="${u.getUsername()}"
                                 th:data-role="${u.getRole()}"
                                 th:data-email="${u.getEmail()}"
                                 th:data-enabled="${u.isEnabled()}"
@@ -63,12 +64,14 @@
             </tbody>
         </table>
     </div>
+
     <h1 th:unless="${users.size()!=0}">Пользователей нет, но как так-то ? Вы же тоже пользователь =)</h1>
+
     <!--    Модальное окно редактирования задачи-->
     <div id="editUserModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
-            <h3>Редактировать пользователя</h3>
+            <h3>Редактирование пользователя</h3>
 
             <form id="editUserForm" method="post">
                 <input type="hidden" id="editUserId" name="id">

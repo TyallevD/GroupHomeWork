@@ -18,9 +18,9 @@ public class TaskService {
         return taskRepository.findByUser(user);
     }
 
-    public Task addTask(Task task, User user) {
+    public void addTask(Task task, User user) {
         task.setUser(user);
-        return taskRepository.save(task);
+        taskRepository.save(task);
     }
 
     public void deleteTask(Long id, User user) {
@@ -29,13 +29,13 @@ public class TaskService {
         taskRepository.delete(task);
     }
 
-    public Task updateTask(Long id, Task updated, User user) {
+    public void updateTask(Long id, Task updated, User user) {
         Task existing = taskRepository.findByIdAndUser(id, user)
                 .orElseThrow(() -> new RuntimeException("Task not found or not exists.")); /* Если такого задания нет **/
         existing.setTitle(updated.getTitle());
         existing.setDescription(updated.getDescription());
         existing.setCompleted(updated.isCompleted());
-        return taskRepository.save(existing);
+        taskRepository.save(existing);
     }
 
     //Подсчёт заметок для статистики администратора

@@ -32,4 +32,13 @@ public class UserResponseDTO {
     public Boolean isEnabled() {
         return isEnabled;
     }
+
+    @Override
+    public String toString() {
+        return  "id=" + id +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", role='" + role + '\'' +
+                ", isEnabled=" + isEnabled;
+    }
 }

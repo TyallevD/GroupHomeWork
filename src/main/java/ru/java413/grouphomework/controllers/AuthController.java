@@ -36,7 +36,7 @@ public class AuthController {
         }
 
         if (success != null) {
-            model.addAttribute("message", "Регистрация прошла успешно! Теперь вы можете войти.");
+            model.addAttribute("success", "Регистрация прошла успешно! Теперь вы можете войти.");
         }
 
         return "index";

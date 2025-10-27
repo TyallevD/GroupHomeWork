@@ -35,7 +35,7 @@ public class AdminController {
 
     // Список всех пользователей
     @GetMapping("/users")
-    public String userManagement(Model model) {
+    public String userManagement( Model model) {
         List<User> users = userService.findAllUsers();
         model.addAttribute("users", users);
         return "/admin/users";
@@ -44,22 +44,25 @@ public class AdminController {
     // Редактирование пользователя
     @PutMapping("/users/{id}")
     public String editUser(@PathVariable Long id,
-                           @ModelAttribute UserResponseDTO userResponseDTO,
+                           @ModelAttribute User userResponseDTO,
                            RedirectAttributes redirectAttributes,
                            Authentication auth) {
+
+        //проверка прав на изменение
         if (!auth.getAuthorities().stream()
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"))) {
             redirectAttributes.addAttribute("error", "Недостаточно прав");
             return "redirect:/admin/users";
         }
+
         try {
-            String currentUserName = auth.getName();
-            User currentUser = userService.findByUsername(currentUserName);
+            User currentUser = userService.findByUsername(auth.getName());
+
             if (currentUser.getId().equals(id)) {
                 redirectAttributes.addFlashAttribute("error", "Нельзя редактировать собственный аккаунт через панель администратора");
                 return "redirect:/admin/users";
             }
-            System.out.println("Что-то меняется?");
+
             userService.updateUser(id, userResponseDTO);
             redirectAttributes.addFlashAttribute("success", "Пользователь успешно обновлен");
             return "redirect:/admin/users";

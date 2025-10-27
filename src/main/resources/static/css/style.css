@@ -45,8 +45,7 @@ button {
 }
 
 /*Страница авторизации*/
-.auth-container,
-.stats-container {
+.auth-container {
     background-color: white;
     padding: 30px;
     border-radius: 8px;
@@ -65,7 +64,7 @@ button {
 
 .username,
 .password,
-stat-card {
+.stat-card {
     margin-bottom: 20px;
 }
 
@@ -350,7 +349,7 @@ button.back-btn:hover,
     padding: 0;
 }
 
-.person-tasks-container {
+.person-tasks-container, .stats-container {
     height: 80vh;
     width: 100%;
     display: flex;

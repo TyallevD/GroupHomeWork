@@ -1,5 +1,6 @@
 package ru.java413.grouphomework.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -25,11 +26,12 @@ public class User {
 
     // поле хранит дату и время регистрации
     @Column(name = "created_at")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
 
     // true - если пользователь в сети
     @Column(name = "is_enabled")
-    private boolean enabled;
+    private Boolean enabled;
 
     public User() {}
 
@@ -38,12 +40,6 @@ public class User {
         this.password = password;
         this.email = email;
         this.createdAt = LocalDateTime.now();
-    }
-
-    public User(Long id, String username, String password) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
     }
 
     @PrePersist
@@ -70,11 +66,11 @@ public class User {
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 
-    public boolean isEnabled() { return enabled; }
-    public void setEnabled(boolean enabled) { this.enabled = enabled; }
+    public Boolean isEnabled() { return enabled; }
+    public void setEnabled(Boolean enabled) { this.enabled = enabled; }
 
     @Override
     public String toString() {
-        return "User{id=" + id + ", username=" +  username + ", password=" + password + ", email=" + email;
+        return "User{id=" + id + ", username=" +  username + ", password=" + password + ", email=" + email + " is enabled=" + enabled;
     }
 }
