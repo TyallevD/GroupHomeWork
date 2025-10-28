@@ -31,6 +31,7 @@ public class DatabaseUserDetailsService implements UserDetailsService {
         return org.springframework.security.core.userdetails.User.builder()
                 .username(user.getUsername())
                 .password(user.getPassword())
+                .disabled(!user.isEnabled())
                 .roles(role.replace("ROLE_", "")) // устанавливается роль пользователя
                 .build();
     }
