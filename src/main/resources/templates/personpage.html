@@ -54,9 +54,9 @@
         <table th:if="${tasks.size()!=0}" border="1">
             <thead>
             <tr>
-                <th class="title">Название</th>
-                <th class="description">Описание</th>
-                <th class="completed">Выполнено</th>
+                <th onclick="sortTable(0)" class="title">Название</th>
+                <th onclick="sortTable(1)" class="description">Описание</th>
+                <th onclick="sortTable(2)" class="completed">Выполнено</th>
                 <th class="task-actions">Управление</th>
             </tr>
             </thead>
