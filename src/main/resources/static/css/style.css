@@ -46,7 +46,7 @@ button {
 
 /*Страница авторизации*/
 .auth-container {
-    background-color: white;
+    background-color: #fff;
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -77,7 +77,7 @@ button {
     width: 100%;
     padding: 12px;
     background-color: #4CAF50;
-    color: white;
+    color: #fff;
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -106,7 +106,7 @@ button {
 }
 
 .registry-form a {
-    color: white;
+    color: #fff;
     text-decoration: none;
     display: block;
 }
@@ -124,7 +124,7 @@ button {
 
 /*Страница регистрации*/
 .registration-container {
-    background-color: white;
+    background-color: #fff;
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -179,7 +179,7 @@ textarea {
 
 .register-btn {
     background-color: #4CAF50;
-    color: white;
+    color: #fff;
 }
 
 .register-btn:hover {
@@ -188,7 +188,7 @@ textarea {
 
 .back-btn {
     background-color: #f44336;
-    color: white;
+    color: #fff;
 }
 
 .back-btn:hover {
@@ -259,6 +259,7 @@ textarea {
     margin: 10px 5px;
     padding: 8px;
     background-color: #4CAF50;
+    color: #fff;
     font-size: 20px;
     text-align: center;
     border-radius: 8px;
@@ -316,7 +317,8 @@ button.back-btn:hover,
 }
 
 /* Группа кнопок под профилем */
-.person-page-container, .admin-container {
+.person-page-container,
+.admin-container {
     margin: 0;
     padding: 0;
     display: flex;
@@ -325,7 +327,8 @@ button.back-btn:hover,
     width: 100%;
 }
 
-.person-page-header, .admin-nav {
+.person-page-header,
+.admin-nav {
     display: flex;
     position: relative;
     top: 5px;
@@ -349,8 +352,10 @@ button.back-btn:hover,
     padding: 0;
 }
 
-.person-tasks-container, .stats-container {
-    height: 80vh;
+.person-tasks-container,
+.stats-container,
+.users-list-container {
+    min-height: 80vh;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -400,25 +405,79 @@ button.back-btn:hover,
     color: #fff;
 }
 
+/* Таблицы */
+table {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 5px;
+    text-align: center;
+    border-collapse: separate;
+}
+
+/*thead {*/
+/*    display: table-header-group;*/
+/*    margin-bottom: 5px;*/
+/*}*/
+
+thead tr th {
+    height: 40px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 5px;
+}
+
+td {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 5px;
+}
+
+td .edit-btn {
+    border-radius: 8px;
+    background-color: #28a745;
+}
+
+td .delete-btn {
+    border-radius: 8px;
+    background-color: #da190b;
+}
+
+td .edit-btn:hover,
+td .delete-btn:hover {
+    opacity: 0.9;
+}
+
 .title {
     width: 300px;
     max-width: 300px;
     min-width: 150px;
+    cursor: pointer;
+    user-select: none;
 }
 
 .description {
-    width: 1380px;
-    max-width: 1380px;
+    width: 1370px;
+    max-width: 1370px;
     min-width: 400px;
+    cursor: pointer;
+    user-select: none;
 }
 
-.completed, .task-actions {
-    width: 100px;
-    max-width: 100px;
-    min-width: 98px;
+.completed {
+    width: 120px;
+    max-width: 120px;
+    min-width: 110px;
+    cursor: pointer;
+    user-select: none;
+}
+.task-actions {
+    width: 120px;
+    max-width: 120px;
+    min-width: 110px;
+    user-select: none;
 }
 
-/*Стили для модальных окон*/
+    /*Стили для модальных окон*/
 .modal {
     display: none;
     position: fixed;
@@ -467,7 +526,7 @@ button.back-btn:hover,
 /*Панель администратора*/
 .admin-nav a {
     background: #28a745;
-    border: 1px solid #28a745;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     color: #fff;
     padding: 10px 16px;
     margin: 20px;
@@ -486,8 +545,9 @@ button.back-btn:hover,
     margin-right: 20px;
 }
 
-.stats-container, .users-list-container {
-    height: 80vh;
+.stats-container,
+.users-list-container {
+    min-height: 80vh;
     padding-top: 10px;
     display: flex;
     flex-direction: column;
@@ -498,4 +558,58 @@ button.back-btn:hover,
 
 .stat-card {
     min-width: 400px;
+}
+
+/*Таблица пользователей*/
+.user-id {
+    width: 60px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.user-name {
+    width: 200px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.user-email {
+    width: 300px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.user-created {
+    width: 160px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.user-role {
+    width: 130px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.user-active {
+    width: 90px;
+    cursor: pointer;
+    user-select: none;
+}
+
+
+.styled-select {
+    background-color: #2196F3;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bolder;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    border: none;
+}
+
+.styled-select:hover {
+    opacity: 0.9;
 }

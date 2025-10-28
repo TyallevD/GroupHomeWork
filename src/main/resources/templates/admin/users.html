@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <title>Список пользователей</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="../static/css/style.css">
 </head>
 <body>
 <div class="admin-container">
     <div class="admin-nav">
         <a class="header-info" th:href="@{/admin/dashboard}">Статистика</a>
-        <a class="header-info" th:href="@{/admin/users}" style="background-color: blue;">Управление пользователями</a>
+        <a class="header-info" th:href="@{/admin/users}" style="background-color: #2196F3;">Управление пользователями</a>
         <a class="header-info" th:href="@{/personpage}">Мои заметки</a>
         <form class="admin-exit-button" th:action="@{/logout} " method="post">
             <button type="submit" class="back-btn">Выйти</button>
@@ -19,21 +20,23 @@
     <div class="users-list-container">
         <h2>Панель администратора</h2>
         <h3>Список пользователей</h3>
+
         <div th:if="${success}" class="alert alert-success" th:text="${success}">
         </div>
         <div th:if="${error}" class="alert alert-error" th:text="${error}">
         </div>
-        <table th:if="${users.size()!=0}" border="1">
+
+        <table th:if="${users.size()!=0}">
             <thead>
 
             <tr>
-                <th>Id</th>
-                <th>Имя пользователя</th>
-                <th>Email</th>
-                <th>Создан</th>
-                <th>Роль</th>
-                <th>Активен</th>
-                <th>Управление</th>
+                <th onclick="sortTable(0)" class="user-id">Id</th>
+                <th onclick="sortTable(1)" class="user-name">Пользователь</th>
+                <th onclick="sortTable(2)" class="user-email">Email</th>
+                <th onclick="sortTable(3)" class="user-created">Создан</th>
+                <th onclick="sortTable(4)" class="user-role">Роль</th>
+                <th onclick="sortTable(5)" class="user-active">Активен</th>
+                <th class="task-actions">Управление</th>
             </tr>
             </thead>
 
@@ -80,7 +83,7 @@
 
                 <div class="form-group">
                     <label for="editUserRole">Роль:</label>
-                    <select id="editUserRole" name="role">
+                    <select class="styled-select" id="editUserRole" name="role">
                         <option value="ROLE_ADMIN">Администратор</option>
                         <option value="ROLE_USER">Пользователь</option>
                     </select>

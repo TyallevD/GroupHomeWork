@@ -32,8 +32,6 @@
                 администратора</a>
 
             <form class="person-button-group" th:action="@{/logout}" method="post">
-                <!--                <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}"-->
-                <!--                       th:value="${_csrf.token}"/>-->
                 <button type="submit" class="back-btn">Выйти</button>
             </form>
         </div>
@@ -51,7 +49,7 @@
         </div>
         <div th:if="${error}" class="alert alert-error" th:text="${error}">
         </div>
-        <table th:if="${tasks.size()!=0}" border="1">
+        <table th:if="${tasks.size()!=0}" >
             <thead>
             <tr>
                 <th onclick="sortTable(0)" class="title">Название</th>

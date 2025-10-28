@@ -22,9 +22,6 @@ function closeModal() {
     document.getElementById('editUserModal').style.display = 'none';
 }
 
-//Для изменения пользователя
-//     let currentEditUserId = null;
-
 function openEditUserModal(button) {
 
     // заполнение данными из элемента таблицы
@@ -53,15 +50,16 @@ function openEditUserModal(button) {
 document.getElementById('editUserForm').addEventListener('submit', function (e) {
     e.preventDefault();
 
-    const formData = new FormData(this);
+    const formData = new FormData();
     const csrfToken = document.querySelector('input[name="_csrf"]').value;
+    const enabledCheckbox = document.getElementById('editUserEnabled');
 
-    // Для отладки - посмотрим что отправляем
-    for (let [key, value] of formData.entries()) {
-        console.log(`${key}: ${value}`);
-    }
-
-
+    formData.append('_method', 'put');
+    formData.append('_csrf', csrfToken);
+    formData.append('id', document.getElementById('editUserId').value);
+    formData.append('role', document.getElementById('editUserRole').value);
+    formData.append('email', document.getElementById('editUserEmail').value);
+    formData.append('enabled', enabledCheckbox.checked ? 'true' : 'false');
 
     fetch(this.action, {
         method: 'POST',

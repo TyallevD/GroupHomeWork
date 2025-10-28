@@ -6,12 +6,11 @@
     <meta charset="UTF-8">
     <title>Панель администратора</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
-    <link rel="stylesheet" href="../../static/css/style.css">
 </head>
 <body>
 <div class="admin-container">
     <div class="admin-nav">
-        <a class="header-info" th:href="@{/admin/dashboard}" style="background-color: blue;">Статистика</a>
+        <a class="header-info" th:href="@{/admin/dashboard}" style="background-color: #2196F3;">Статистика</a>
         <a class="header-info" th:href="@{/admin/users}">Управление пользователями</a>
         <a class="header-info" th:href="@{/personpage}">Мои заметки</a>
         <form class="admin-exit-button" th:action="@{/logout} " method="post">
