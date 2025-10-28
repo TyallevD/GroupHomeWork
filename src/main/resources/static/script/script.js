@@ -116,3 +116,44 @@ document.addEventListener('DOMContentLoaded', function () {
             alert('Ошибка при обновлении заметки');
         });
 });
+
+
+    //сортировка
+let sortStates = {};
+
+function sortTable(columnIndex) {
+    let tbody = document.getElementsByTagName('tbody')[0];
+    let rows = Array.from(tbody.getElementsByTagName('tr'));
+
+    let headers = document.querySelectorAll("th");
+
+
+    let sortedRows = rows.sort((rowA, rowB) => {
+        let cellA = rowA.cells[columnIndex].innerText.toLowerCase();
+        let cellB = rowB.cells[columnIndex].innerText.toLowerCase();
+
+        let sortMult = sortStates[columnIndex] === 'asc' ? -1 : 1;
+
+        if (isNaN(cellA) && !isNaN(cellB)) {
+            return sortMult * (Number(cellA) - Number(cellB));
+        }
+        return sortMult * cellA.localeCompare(cellB);
+    });
+
+    for (const header of headers) {
+        let arr = header.innerText.split(' ');
+        header.innerText = arr[0];
+    }
+
+    if (sortStates[columnIndex] === 'asc') {
+        sortStates[columnIndex] = 'desc'
+        headers[columnIndex].innerText += ' ▼'
+    } else {
+        sortStates[columnIndex] = 'asc'
+        headers[columnIndex].innerText += ' ▲'
+    }
+
+    sortedRows.forEach(row => {
+        tbody.appendChild(row);
+    });
+}
