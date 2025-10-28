@@ -113,7 +113,6 @@ public class UserService {
         return userRepository.count();
     }
 
-    //todo доделать редактирование пользователя
     @Transactional
     public void updateUser(Long id, User dto) {
         User user = userRepository.findById(id)
